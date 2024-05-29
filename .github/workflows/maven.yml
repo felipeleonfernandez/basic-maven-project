@@ -25,9 +25,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
-      - name: Run the Maven verify phase
-        run: mvn verify --batch-mode --update-snapshots 
+      - run: mvn --batch-mode --update-snapshots verify
+      - run: mkdir staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: staging
+    
     
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
